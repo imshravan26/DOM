@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My TODO App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+        background: #0f0f0f;
+        color: #e0e0e0;
+        padding: 40px 20px;
+      }
+
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+        background: #1a1a1a;
+        border-radius: 16px;
+        padding: 32px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 28px;
+        color: #ff6b35;
+      }
+
+      form {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+
+      #todo {
+        flex: 1;
+        padding: 12px 16px;
+        font-size: 15px;
+        font-family: 'Inter', sans-serif;
+        border: 1px solid #333;
+        border-radius: 8px;
+        background: #252525;
+        color: #e0e0e0;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      #todo::placeholder {
+        color: #666;
+      }
+
+      #todo:focus {
+        border-color: #ff6b35;
+      }
+
+      #btn {
+        padding: 12px 24px;
+        font-size: 15px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 500;
+        background: #ff6b35;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      #btn:hover {
+        background: #ff8c5a;
+      }
+
+      #todoContainer {
+        list-style: none;
+        padding: 0;
+      }
+
+      #todoContainer li {
+        background: #252525;
+        padding: 14px 16px;
+        margin: 8px 0;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+        font-size: 15px;
+      }
+
+      #todoContainer li:hover {
+        background: #2a2a2a;
+        border-color: #ff6b35;
+        transform: translateX(4px);
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 24px;
+        }
+
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        form {
+          flex-direction: column;
+        }
+
+        #btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>✨ My TODO App</h1>
+      <form>
+        <input id="todo" type="text" placeholder="Enter your task here..." />
+        <button type="submit" id="btn">Create</button>
+      </form>
+      <ul id="todoContainer"></ul>
+    </div>
+
+    <script>
+      // solve the problem for the specific users
+      // try to make this the fastest way possible
+
+      const allTodos = [];
+      let maxId = 0;
+
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+
+        if (key.startsWith("todo-")) {
+          const item = localStorage.getItem(key);
+          allTodos.push({ id: key, text: item });
+
+          // Track the highest ID to avoid conflicts
+          const idNum = parseInt(key.replace("todo-", ""));
+          if (idNum >= maxId) {
+            maxId = idNum + 1;
+          }
+        }
+      }
+
+      let todoId = maxId;
+
+      const btnRef = document.getElementById("btn");
+      const todoRef = document.getElementById("todo");
+      const formRef = document.querySelector("form");
+      const todoContainerRef = document.getElementById("todoContainer");
+
+      btnRef.addEventListener("click", createTodo);
+      formRef.addEventListener("submit", (e) => {
+        e.preventDefault();
+        createTodo();
+      });
+
+      allTodos.forEach((element) => {
+        const todo = document.createElement("li");
+        todo.id = element.id;
+        todo.innerText = element.text;
+        todo.addEventListener("click", () => {
+          todo.remove();
+          localStorage.removeItem(todo.id);
+        });
+        todoContainerRef.appendChild(todo);
+      });
+
+      function createTodo() {
+        const value = todoRef.value;
+        if (!value.trim()) return;
+
+        todoRef.value = "";
+
+        const todo = document.createElement("li");
+        todo.id = `todo-${todoId++}`;
+        todo.addEventListener("click", () => {
+          todo.remove();
+          localStorage.removeItem(todo.id);
+        });
+
+        todo.innerText = value;
+        localStorage.setItem(todo.id, todo.innerText);
+
+        todoContainerRef.appendChild(todo);
+      }
+    </script>
+  </body>
+</html>

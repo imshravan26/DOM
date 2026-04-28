@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="btn">Click Me</button>
+    <script>
+      let btnRef = document.getElementById("btn");
+      btnRef.style.backgroundColor = "pink";
+      console.log(window);
+
+      btnRef.onclick = function () {
+        console.log("Click kardiya!!");
+      };
+      btnRef.onclick = function () {
+        console.log("Click kardiya!! (override)"); // override kata hai
+      };
+
+      //   btnRef.addEventListener("click", () => {
+      //     console.log("Button click hua!");
+      //   });
+      //   btnRef.addEventListener("click", () => {
+      //     console.log("isme overide nahi hota");
+      //   });
+
+      btnRef.addEventListener("click", onClickHandler);
+      function onClickHandler() {
+        // btnRef.remove();
+        console.log("yeh hai kuch toh");
+        btnRef.removeEventListener("click", onClickHandler);
+        btnRef = null;
+      }
+    </script>
+  </body>
+</html>
