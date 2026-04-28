@@ -4,7 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My TODO App</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
       * {
         margin: 0;
@@ -13,7 +16,7 @@
       }
 
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         min-height: 100vh;
         background: #0f0f0f;
         color: #e0e0e0;
@@ -47,7 +50,7 @@
         flex: 1;
         padding: 12px 16px;
         font-size: 15px;
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         border: 1px solid #333;
         border-radius: 8px;
         background: #252525;
@@ -67,7 +70,7 @@
       #btn {
         padding: 12px 24px;
         font-size: 15px;
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         font-weight: 500;
         background: #ff6b35;
         color: white;
@@ -135,8 +138,8 @@
     <script>
       // solve the problem for the specific users
       // try to make this the fastest way possible
-
       const allTodos = [];
+
       let maxId = 0;
 
       for (let i = 0; i < localStorage.length; i++) {
@@ -160,6 +163,22 @@
       const todoRef = document.getElementById("todo");
       const formRef = document.querySelector("form");
       const todoContainerRef = document.getElementById("todoContainer");
+
+      /*
+      (async () => {
+        fetch("https://api.freeapi.app/api/v1/public/quotes", {
+          method: "GET",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            for (const joke of data.data.data) {
+              const todo = document.createElement("li");
+              todo.innerText = joke.content;
+              todoContainerRef.appendChild(todo);
+            }
+          });
+      })();
+      */
 
       btnRef.addEventListener("click", createTodo);
       formRef.addEventListener("submit", (e) => {
